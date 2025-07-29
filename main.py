@@ -9,10 +9,20 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 GROUND_HEIGHT = 100
 
+# Load assets
+try:
+    sun_image = pygame.image.load("assets/sun.png")
+    # Scale the sun image to a reasonable size (you can adjust this)
+    sun_image = pygame.transform.scale(sun_image, (80, 80))
+except pygame.error:
+    print("Could not load sun.png - using yellow circle instead")
+    sun_image = None
+
 # Colors
 WHITE = (255, 255, 255)
 BLUE = (0, 100, 255)
 GREEN = (34, 139, 34)
+YELLOW = (255, 255, 0)
 
 # Character properties
 CHARACTER_WIDTH = 40
@@ -75,6 +85,19 @@ class Character:
             screen, BLUE, (self.x, self.y, self.width, self.height))
 
 
+def draw_sun(screen):
+    """Draw the sun in the top left corner"""
+    sun_x = 20  # 20 pixels from left edge
+    sun_y = 20  # 20 pixels from top edge
+
+    if sun_image is not None:
+        # Draw the loaded sun image
+        screen.blit(sun_image, (sun_x, sun_y))
+    else:
+        # Fallback: draw a yellow circle if image couldn't be loaded
+        pygame.draw.circle(screen, YELLOW, (sun_x + 40, sun_y + 40), 40)
+
+
 def main():
     # Create the screen
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -115,11 +138,15 @@ def main():
         pygame.draw.rect(screen, GREEN, (0, SCREEN_HEIGHT -
                          GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT))
 
+        # Draw sun in top left corner
+        draw_sun(screen)
+
         # Draw character
         character.draw(screen)
 
         # Update display
         pygame.display.flip()
+
         clock.tick(60)  # 60 FPS
 
     # Quit
