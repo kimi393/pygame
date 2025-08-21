@@ -1,10 +1,10 @@
 # Pygame Character Runner
 
-A simple pygame application featuring a blue character that can run and jump on a green plane with a white background.
+A simple pygame application featuring yoshi that can run and jump on a green plane with a white background.
 
 ## Features
 
--   Blue rectangular character that can move and jump
+-   Yoshi character that can move and jump
 -   Green ground plane at the bottom of the screen
 -   White background
 -   Smooth character movement with gravity physics
@@ -41,4 +41,4 @@ python main.py
 -   Character stays within screen boundaries
 -   Smooth 60 FPS gameplay
 
-Enjoy running and jumping with your blue character!
+Enjoy running and jumping with your yoshi character!
