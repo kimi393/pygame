@@ -21,6 +21,10 @@ class Character:
         self.gravity = 0.5
         self.direction = 'right'
         self.prev_y = y
+        self.accelerate = 0.15
+        self.decelerate = 0.18
+
+
     def update(self):
         # Remember previous vertical position for swept collisions
         self.prev_y = self.y
@@ -55,13 +59,24 @@ class Character:
             self.on_platform = False
 
     def move_left(self):
-        self.velocity_x = -self.speed
+        self.velocity_x -=  self.accelerate
+        if self.velocity_x < -self.speed:
+            self.velocity_x = -self.speed
         self.direction = 'left'
     def move_right(self):
-        self.velocity_x = self.speed
+        self.velocity_x +=  self.accelerate
+        if self.velocity_x > self.speed:
+            self.velocity_x = self.speed
         self.direction = 'right'
     def stop_horizontal_movement(self):
-        self.velocity_x = 0
+        if self.direction == 'right':
+            self.velocity_x -= self.decelerate 
+            if self.velocity_x < 0:
+                self.velocity_x = 0
+        else :
+            self.velocity_x += self.decelerate
+            if self.velocity_x > 0:
+                self.velocity_x = 0
 
     def draw(self, screen):
         if self.direction == 'right':

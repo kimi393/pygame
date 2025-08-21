@@ -42,7 +42,7 @@ def draw_clouds(screen, cloud_color, cloud_x, cloud_y):
     pygame.draw.circle(screen, cloud_color, (cloud_x + 15, cloud_y - 20), 35) # Right top
 
 
-def draw(screen, character, platforms):
+def draw(screen, character, platforms, timer):
     # Clear screen with white background
     screen.fill(SKYBLUE)
 
@@ -61,8 +61,9 @@ def draw(screen, character, platforms):
     draw_clouds(screen,(155, 232, 232),500,185)
     # Draw character
     character.draw(screen)
-
-   
+    font = pygame.font.SysFont("Arial", 40)
+    text = font.render(f"time: {timer:.1f}",True, WHITE)
+    screen.blit(text, (350,0))
     # Update display
     pygame.display.flip()
 
@@ -73,7 +74,7 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption("yoshi Running Game")
     clock = pygame.time.Clock()
-
+    timer = TIME
     # Create character
     character = Character(100, SCREEN_HEIGHT -
                           GROUND_HEIGHT - CHARACTER_HEIGHT)
@@ -97,7 +98,11 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     character.jump()
-
+        timer -= (1 / 60)
+        
+        if timer <= 0:
+            pygame.quit()
+            sys.exit()
         # Handle continuous key presses
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
@@ -144,7 +149,7 @@ def main():
                 character.on_ground = False
                 character.on_platform = False
 
-        draw(screen, character, platforms)
+        draw(screen, character, platforms, timer)
         
         clock.tick(60)  # 60 FPS
 
